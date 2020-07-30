@@ -11,13 +11,19 @@ module.exports = function (req, res, next) {
       msg: 'No token, authorization denied',
     });
   }
-  //Verify token
+  //Verify token is legit and not expired
   try {
-    //pass in the header token with your jwtSecret and destructure
+    //pass in the header token with your jwtSecret and destructure into...
+    // {
+    //     user: { id: '5f225b65fd00cf2cb0fb17f3' },
+    //     iat: 1596087141,
+    //     exp: 1596447141
+    // }
     const decoded = jwt.verify(
       token,
       config.get('jwtSecret')
     );
+    //making req.user be the id for later usage
     req.user = decoded.user;
     next();
   } catch (err) {
