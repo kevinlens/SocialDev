@@ -97,7 +97,7 @@ router.post(
         (err, token) => {
           if (err) throw err;
           res.json({
-            msg: 'User Registered',
+            msg: 'User Logged In',
             token: token,
           });
         }
