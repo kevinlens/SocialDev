@@ -1,7 +1,11 @@
 const express = require('express');
 //get router tool from express
 const router = express.Router();
+// Gravatar will only give a valid Avatar if the associated email has a Gravatar set up at gravatar.com
 const gravatar = require('gravatar');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const config = require('config');
 const {
   check,
   validationResult,
@@ -52,8 +56,9 @@ router.post(
         });
       }
       // Get users gravatar
+      //mixes users email with these preset and sees if email has avatar set up
       const avatar = gravatar.url(email, {
-        //s=size, r=rating, d=default
+        //display only the following or lower, s=size, r=rating, d=default
         s: '200',
         r: 'pg',
         d: 'mm',
@@ -66,10 +71,35 @@ router.post(
         password,
       });
       // Encrypt password
-
+      const salt = await bcrypt.genSalt(10);
+      user.password = await bcrypt.hash(
+        password,
+        salt
+      );
+      await user.save();
       // Return jsonwebtoken
+      //payload stands for serialized JSON data about the user
+      const payload = {
+        user: {
+          //mongoose has an abstraction that allows you to not use user._id
+          id: user.id,
+        },
+      };
 
-      res.send('User Route');
+      //pass in user id and user's 'secret' as part of the signing
+      jwt.sign(
+        payload,
+        config.get('jwtSecret'),
+        { expiresIn: 360000 },
+        (err, token) => {
+          if (err) throw err;
+          res.json({
+            token: token,
+            msg: 'User Registered',
+          });
+        }
+      );
+      //
     } catch (err) {
       console.log(err.message);
       res.status(500).send('Server error');

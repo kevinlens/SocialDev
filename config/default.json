@@ -1,3 +1,4 @@
 {
-  "mongoURI": "mongodb+srv://dbUser:iZ3Z502vkFfUgRTG@cluster0-dl3hv.mongodb.net/DevSocial?retryWrites=true&w=majority"
+  "mongoURI": "mongodb+srv://dbUser:iZ3Z502vkFfUgRTG@cluster0-dl3hv.mongodb.net/DevSocial?retryWrites=true&w=majority",
+  "jwtSecret": "Nice_Try_Mr_Hacker_Man"
 }
