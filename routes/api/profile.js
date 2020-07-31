@@ -2,6 +2,7 @@ const express = require('express');
 //get router tool from express
 const router = express.Router();
 const auth = require('../../middleware/authenticateToken');
+const {check, validationResult} = require('express-validator')
 const Profile = require('../../models/Profile');
 const User = require('../../models/User');
 
