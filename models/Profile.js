@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const ProfileSchema = new mongoose.Schema({
-  // Every profile is associated with the User, referencing
+  // Every profile is associated with the User, referencing User Model, with its own unique ID
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user',
@@ -110,3 +110,8 @@ const ProfileSchema = new mongoose.Schema({
     default: Date.now,
   },
 });
+
+module.exports = Profile = mongoose.model(
+  'profile',
+  ProfileSchema
+);
