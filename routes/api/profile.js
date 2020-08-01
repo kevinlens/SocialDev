@@ -54,6 +54,24 @@ router.post(
         errors: errors.array(),
       });
     }
+    const {
+      company,
+      location,
+      website,
+      bio,
+      skills,
+      status,
+      githubusername,
+      youtube,
+      twitter,
+      instagram,
+      linkedin,
+      facebook,
+    } = req.body;
+
+    // Build profile object
+    const profileFields = {};
+    profileFields.user = req.user.id;
   }
 );
 
