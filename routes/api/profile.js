@@ -69,9 +69,27 @@ router.post(
       facebook,
     } = req.body;
 
-    // Build profile object
+    // Build profile Object
     const profileFields = {};
+    //setting the profile to the related user's id
     profileFields.user = req.user.id;
+    if (company) profileFields.company = company;
+    if (website) profileFields.website = website;
+    if (location) profileFields.location = location;
+    if (bio) profileFields.bio = bio;
+    if (status) profileFields.status = status;
+    if (githubusername)
+      profileFields.githubusername = githubusername;
+    if (skills) {
+      //turn object into an array,trim() removes all whitespaces from string
+      profileFields.skills = skills
+        .split(',')
+        .map((skill) => skill.trim());
+    }
+
+    console.log(profileFields.skills);
+
+    res.send('Hello')
   }
 );
 
