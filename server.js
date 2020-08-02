@@ -17,8 +17,8 @@ app.get('/', (req, res) => res.send('API Running'));
 app.use('/api/users', require('./routes/api/users'));
 app.use('/api/authenticateUser', require('./routes/api/authenticateUser'));
 app.use(
-  '/api/profile',
-  require('./routes/api/profile')
+  '/api/profiles',
+  require('./routes/api/profiles')
 );
 app.use('/api/post', require('./routes/api/posts'));
 

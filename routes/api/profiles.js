@@ -13,7 +13,7 @@ const User = require('../../models/User');
 // @route     GET api/profile/me
 // @descrip   Get current users profile
 // @access    Private
-router.get('/me', auth, async (req, res) => {
+router.get('/profile/me', auth, async (req, res) => {
   try {
     //find the property with specific id, within Profile Schema
     const profile = await Profile.findOne({
@@ -25,17 +25,18 @@ router.get('/me', auth, async (req, res) => {
         msg: 'There is no profile for this user',
       });
     }
+    res.json(profile);
   } catch (err) {
     console.log(err.message);
     res.status(500).send('Server Error');
   }
 });
 
-// @route     POST api/profile/me
+// @route     POST api/profile
 // @descrip   Create or update user profile
 // @access    Private
 router.post(
-  '/',
+  '/profile',
   [
     auth,
     [
@@ -104,7 +105,7 @@ router.post(
       let profile = await Profile.findOne({
         user: req.user.id,
       });
-      //if the profile info exist in at least one of the user then...
+      //if the profile info then...
       if (profile) {
         profile = await Profile.findOneAndUpdate(
           { user: req.user.id },
@@ -116,7 +117,8 @@ router.post(
 
       //Create
       profile = new Profile(profileFields);
-      await Profile.save();
+      await profile.save();
+      //
       res.json(profile);
     } catch (err) {
       console.log(err.message);
@@ -133,6 +135,11 @@ router.post(
 
 router.get('/', async (req, res) => {
   try {
+    const profiles = await Profile.find().populate(
+      'user',
+      ['name', 'avatar']
+    );
+    res.json(profiles);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
