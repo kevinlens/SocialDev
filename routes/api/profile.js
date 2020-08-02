@@ -114,11 +114,10 @@ router.post(
         return res.json(profile).json;
       }
 
-      //Create 
+      //Create
       profile = new Profile(profileFields);
       await Profile.save();
-      res.json(profile)
-
+      res.json(profile);
     } catch (err) {
       console.log(err.message);
       res.status(500).send('Server Error');
@@ -127,5 +126,17 @@ router.post(
     res.send('Hello');
   }
 );
+
+// @route     GET api/profiles
+// @descrip   Get all profiles
+// @access    Public
+
+router.get('/', async (req, res) => {
+  try {
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
 
 module.exports = router;
