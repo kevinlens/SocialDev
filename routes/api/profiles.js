@@ -1,12 +1,14 @@
 const express = require('express');
 //get router tool from express
 const router = express.Router();
+const config = require('config');
 const auth = require('../../middleware/authenticateToken');
 const {
   check,
   validationResult,
 } = require('express-validator');
-
+//To send request to Github's API
+const request = require('request');
 const Profile = require('../../models/Profile');
 const User = require('../../models/User');
 
@@ -199,12 +201,13 @@ router.delete('/profile', auth, async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
+//========================================================================================
 
-// @route     PATCH api/profiles/experience
+// @route     PUT api/profiles/experience
 // @descrip   Add profile experience
 // @access    Private
 
-router.patch(
+router.put(
   '/experience',
   [
     auth,
@@ -259,6 +262,7 @@ router.patch(
       });
 
       //unshift is the same thing as push() but push() goes to the very end
+      //this is like a resume array, with multiple experiences bullet points
       profile.experience.unshift(newExp);
       await profile.save();
 
@@ -274,5 +278,189 @@ router.patch(
     }
   }
 );
+
+// @route     PUT api/profiles/experience/:exp_id
+// @descrip   Delete experience from profile
+// @access    Private
+
+router.delete(
+  '/experience/:exp_id',
+  auth,
+  async (req, res) => {
+    try {
+      const profile = await Profile.findOne({
+        user: req.user.id,
+      });
+
+      //For every item within the [experience array], that has the same id to req.params.exp_id, return its id
+      const removeIndex = profile.experience
+        .map((item) => item.id)
+        .indexOf(req.params.exp_id);
+      //remove one of the item with the id from experience
+      profile.experience.splice(removeIndex, 1);
+      await profile.save();
+      //
+      res.json(profile);
+      //
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  }
+);
+
+//========================================================================================
+
+// @route     PUT api/profiles/education
+// @descrip   Add profile education
+// @access    Private
+
+router.put(
+  '/education',
+  [
+    auth,
+    [
+      check('school', 'School is required')
+        .not()
+        .isEmpty(),
+    ],
+    [
+      check('degree', 'Degree is required')
+        .not()
+        .isEmpty(),
+    ],
+    [
+      check(
+        'fieldofstudy',
+        'Field of study is required'
+      )
+        .not()
+        .isEmpty(),
+    ],
+    [
+      check('from', 'From data is required')
+        .not()
+        .isEmpty(),
+    ],
+  ],
+  async (req, res) => {
+    //Errors
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res
+        .status(400)
+        .json({ errors: errors.array() });
+    }
+    //
+    const {
+      school,
+      degree,
+      fieldofstudy,
+      from,
+      to,
+      current,
+      description,
+    } = req.body;
+
+    const newEdu = {
+      school,
+      degree,
+      fieldofstudy,
+      from,
+      to,
+      current,
+      description,
+    };
+
+    try {
+      const profile = await Profile.findOne({
+        user: req.user.id,
+      });
+
+      //unshift is the same thing as push() but push() goes to the very end
+      //this is like a resume array, with multiple experiences bullet points
+      profile.education.unshift(newEdu);
+      await profile.save();
+
+      res.json(profile);
+      //
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+
+    if (!errors.isEmpty()) {
+      return res.status(400);
+    }
+  }
+);
+
+// @route     PUT api/profiles/education/:edu_id
+// @descrip   Delete education from profile
+// @access    Private
+
+router.delete(
+  '/education/:edu_id',
+  auth,
+  async (req, res) => {
+    try {
+      const profile = await Profile.findOne({
+        user: req.user.id,
+      });
+
+      //For every item within the [experience array], that has the same id to req.params.exp_id, return its id
+      const removeIndex = profile.education
+        .map((item) => item.id)
+        .indexOf(req.params.edu_id);
+      //remove one of the item with the id from experience
+      profile.education.splice(removeIndex, 1);
+      await profile.save();
+      //
+      res.json(profile);
+      //
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  }
+);
+
+//========================================================================================
+
+// @route     GET api/profiles/profile/github/:username
+// @descrip   Get user repos from github
+// @access    Public
+router.get('/profile/github/:username', (req, res) => {
+  try {
+    //Search for github :username's repos, with with maximum of 5 of their repo(project) to be shown per page
+    const options = {
+      uri: `https://api.github.com/users/${
+        req.params.username
+      }/repos?per_page=5&sort=created:asc&client_id=${config.get(
+        'githubClientId'
+      )}&client_secret=${config.get('githubSecret')}`,
+      method: 'GET',
+      headers: { 'user-agent': 'node.js' },
+    };
+
+    request(options, (error, response, body) => {
+      //error
+      if (error) console.error(error);
+      // if not 'success'
+      if (response.statusCode !== 200) {
+        res
+          .status(404)
+          .json({ msg: 'No Github profile found' });
+      }
+      //
+      res.json(JSON.parse(body));
+    });
+    //
+  } catch (err) {
+    console.err(err.message);
+    res.status(500).send('Server Error');
+  }
+  //
+});
 
 module.exports = router;
