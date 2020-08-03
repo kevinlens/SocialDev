@@ -432,11 +432,11 @@ router.delete(
 // @access    Public
 router.get('/profile/github/:username', (req, res) => {
   try {
-    //Search for github :username's repos, with with maximum of 5 of their repo(project) to be shown per page
+    //Search for github users repos, with with maximum of 5 of their repo(project) to be shown per page
     const options = {
       uri: `https://api.github.com/users/${
         req.params.username
-      }/repos?per_page=5&sort=created:asc&client_id=${config.get(
+      }/repos?per_page=3&sort=created:asc&client_id=${config.get(
         'githubClientId'
       )}&client_secret=${config.get('githubSecret')}`,
       method: 'GET',
