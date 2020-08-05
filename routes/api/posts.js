@@ -14,7 +14,7 @@ const User = require('../../models/User');
 // @route     POST api/posts
 // @descrip   Create a post
 // @access    Private
-router.get(
+router.post(
   '/',
   [
     auth,
