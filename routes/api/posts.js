@@ -7,6 +7,10 @@ const {
 } = require('express-validator');
 const auth = require('../../middleware/authenticateToken');
 
+const Post = require('../../models/Post');
+const Profile = require('../../models/Profile');
+const User = require('../../models/User');
+
 // @route     POST api/posts
 // @descrip   Create a post
 // @access    Private
@@ -20,7 +24,25 @@ router.get(
         .isEmpty(),
     ],
   ],
-  async(req, res) => {}
+  async (req, res) => {
+    //If there is an error
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        errors: errors.array(),
+      });
+    }
+
+    const user = await User.findById(
+      req.user.id
+    ).select('-password');
+
+    const newPost = {
+      text: req.body.text,
+      name: user.name,
+      avatar: user.avatar,
+      user: req.user.id
+    };
+  }
 );
 
 module.exports = router;
