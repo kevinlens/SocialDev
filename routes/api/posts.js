@@ -32,16 +32,27 @@ router.get(
       });
     }
 
-    const user = await User.findById(
-      req.user.id
-    ).select('-password');
+    try {
+      const user = await User.findById(
+        req.user.id
+      ).select('-password');
 
-    const newPost = {
-      text: req.body.text,
-      name: user.name,
-      avatar: user.avatar,
-      user: req.user.id
-    };
+      const newPost = {
+        text: req.body.text,
+        name: user.name,
+        avatar: user.avatar,
+        user: req.user.id,
+      };
+
+      //to be able to send it back as json
+      const post = await newPost.save();
+
+      res.json(post);
+
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
   }
 );
 
