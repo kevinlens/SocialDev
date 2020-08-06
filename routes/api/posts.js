@@ -38,22 +38,65 @@ router.post(
         req.user.id
       ).select('-password');
 
-      const newPost = {
+      const newPost = new Post({
         text: req.body.text,
         name: user.name,
         avatar: user.avatar,
         user: req.user.id,
-      };
+      });
 
       //to be able to send it back as json
       const post = await newPost.save();
 
       res.json(post);
+      //
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server Error');
     }
   }
 );
+
+// @route     GET api/posts
+// @descrip   GET all posts
+// @access    Private
+
+router.get('/', auth, async (req, res) => {
+  try {
+    //sort through the post with the most recent first
+    const posts = await Post.find().sort({ date: -1 });
+    res.json(posts);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route     GET api/posts/:id
+// @descrip   GET post by ID
+// @access    Private
+
+router.get('/:id', auth, async (req, res) => {
+  try {
+    //sort through the post with the most recent first
+    const post = await Post.findById(req.params.id);
+
+    if (!post) {
+      return res
+        .status(404)
+        .json({ msg: 'Post not found' });
+    }
+
+    res.json(post);
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind === 'ObjectId') {
+      return res
+        .status(404)
+        .json({ msg: 'Post not found' });
+    }
+    res.status(500).send('Server Error');
+  }
+});
 
 module.exports = router;
