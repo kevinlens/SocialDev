@@ -148,9 +148,10 @@ router.put('/like/:id', auth, async (req, res) => {
     //Check if the post has already been like
     //for every like inside of the like.user array, if any one of them has similar id to..., then...
     if (
+      //note: 'filter' always creates and returns a new set of array, either empty or not []
       post.likes.filter(
         (like) => like.user.toString() === req.user.id
-      )
+      ).length > 0
     ) {
       return res
         .status(400)
@@ -179,9 +180,10 @@ router.put('/unlike/:id', auth, async (req, res) => {
     //Check if the post has already been like
     //for every like inside of the like.user array, if any one of them has similar id to..., then...
     if (
-      !post.likes.filter(
+      //note: 'filter' always creates and returns a new set of array, either empty or not []
+      post.likes.filter(
         (like) => like.user.toString() === req.user.id
-      )
+      ).length === 0
     ) {
       return res
         .status(400)
