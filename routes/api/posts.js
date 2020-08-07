@@ -172,23 +172,28 @@ router.put('/like/:id', auth, async (req, res) => {
 // @descrip   Like a post
 // @access    Private
 
-router.put('/like/:id', auth, async (req, res) => {
+router.put('/unlike/:id', auth, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
 
     //Check if the post has already been like
     //for every like inside of the like.user array, if any one of them has similar id to..., then...
     if (
-      post.likes.filter(
+      !post.likes.filter(
         (like) => like.user.toString() === req.user.id
-      ).length === 0
+      )
     ) {
       return res
         .status(400)
-        .json({ msg: 'Post already liked' });
+        .json({ msg: 'Post has not yet been liked' });
     }
 
-    post.likes.unshift({ user: req.user.id });
+    //Get remove index (get the current position, aka index, of the specified item)
+    const removeIndex = post.likes.map((like) =>
+      like.user.toString().indexOf(req.user.id)
+    );
+
+    post.likes.splice(removeIndex, 1);
 
     await post.save();
 
