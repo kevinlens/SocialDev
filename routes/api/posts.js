@@ -259,4 +259,41 @@ router.post(
   }
 );
 
+// @route     DELETE api/posts/comment/:id/:comment_id
+// @descrip   Delete a comment
+// @access    Private
+
+router.delete(
+  '/comment/:id/:comment_id',
+  auth,
+  async (req, res) => {
+    try {
+      const post = await Post.findById(req.params.id);
+      //Find every item in comment.id, that has similar id to req.params.cooment_id
+      const comment = post.comments.find(
+        (comment) =>
+          comment.id === req.params.comment_id
+      );
+
+      // Make sure comment exists
+      if (!comment) {
+        return res
+          .status(404)
+          .json({ msg: 'Comment does not exist' });
+      }
+
+      // Check user
+      if (comment.user.toString() !== req.user.id) {
+        return res
+          .status(401)
+          .json({ msg: 'User not authorized' });
+      }
+      
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  }
+);
+
 module.exports = router;
