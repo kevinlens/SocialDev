@@ -190,7 +190,7 @@ router.put('/unlike/:id', auth, async (req, res) => {
         .json({ msg: 'Post has not yet been liked' });
     }
 
-    //Get remove index (get the current position, aka index, of the specified item)
+    //Get/FIND the index of where ever the id is stored (get the current position, aka index, of the specified item)
     const removeIndex = post.likes.map((like) =>
       like.user.toString().indexOf(req.user.id)
     );
@@ -269,7 +269,7 @@ router.delete(
   async (req, res) => {
     try {
       const post = await Post.findById(req.params.id);
-      //Find every item in comment.id, that has similar id to req.params.cooment_id
+      //Find every item in comment.id, that has similar id to req.params.cooment_id and store it in array: [{...}]
       const comment = post.comments.find(
         (comment) =>
           comment.id === req.params.comment_id
@@ -282,13 +282,23 @@ router.delete(
           .json({ msg: 'Comment does not exist' });
       }
 
-      // Check user
+      // Check if user is authorized
       if (comment.user.toString() !== req.user.id) {
         return res
           .status(401)
           .json({ msg: 'User not authorized' });
       }
-      
+
+      //Get/FIND the index of where ever the id is stored (get the current position, aka index, of the specified item)
+      const removeIndex = post.comment.map((comment) =>
+        comment.user.toString().indexOf(req.user.id)
+      );
+
+      post.comments.splice(removeIndex, 1);
+
+      await post.save();
+
+      res.json(post.comments);
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server Error');
