@@ -297,7 +297,7 @@ router.delete(
       post.comments.splice(removeIndex, 1);
 
       await post.save();
-
+      console.log(comment);
       res.json(post.comments);
     } catch (err) {
       console.error(err.message);
