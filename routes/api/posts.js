@@ -291,8 +291,9 @@ router.delete(
       }
 
       //Get/FIND the index of where ever the id is stored (get the current position, aka index, of the specified item)
-      const removeIndex = post.comments.map((comment) =>
-        comment.user.toString().indexOf(req.user.id)
+      const removeIndex = post.comments.map(
+        (comment) =>
+          comment.user.toString().indexOf(req.user.id)
       );
 
       post.comments.splice(removeIndex, 1);
