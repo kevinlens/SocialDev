@@ -269,7 +269,8 @@ router.delete(
   async (req, res) => {
     try {
       const post = await Post.findById(req.params.id);
-      //Find every item in comment.id, that has similar id to req.params.cooment_id and store it in array: [{...}]
+      //Find every item in comment.id, that has similar id to req.params.cooment_id and store it in the varaible as '{...}'
+      //This is to help us find out whether or not the comment exist and send out error messages
       const comment = post.comments.find(
         (comment) =>
           comment.id === req.params.comment_id
@@ -290,14 +291,14 @@ router.delete(
       }
 
       //Get/FIND the index of where ever the id is stored (get the current position, aka index, of the specified item)
-      const removeIndex = post.comment.map((comment) =>
+      const removeIndex = post.comments.map((comment) =>
         comment.user.toString().indexOf(req.user.id)
       );
 
       post.comments.splice(removeIndex, 1);
 
       await post.save();
-      console.log(comment);
+
       res.json(post.comments);
     } catch (err) {
       console.error(err.message);
