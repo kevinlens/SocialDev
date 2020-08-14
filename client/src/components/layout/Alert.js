@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 //Connects component to Redux
 import { connect } from 'react-redux';
 
+//Get the {alerts} destructered from the state props 'mapStateToProps'
 const Alert = ({ alerts }) =>
   alerts !== null &&
   alerts.length > 0 &&
@@ -25,4 +26,4 @@ const mapStateToProps = (state) => ({
   alerts: state.alert,
 });
 
-export default connect()(Alert);
+export default connect(mapStateToProps)(Alert);
