@@ -18,6 +18,8 @@ export default function (
       //return this state data which is then collected to be turn props in layout/Alert.js
       return [...state, payload];
     case REMOVE_ALERT:
+      //pretty much the state of the redux tool 'state' array
+      //looks for any alert component with no id similar to payload, in the end none exist therefore the primary state array recieves an empty array
       return state.filter(
         (alert) => alert.id !== payload
       );
