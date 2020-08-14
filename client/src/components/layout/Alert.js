@@ -25,5 +25,5 @@ Alert.propTypes = {
 const mapStateToProps = (state) => ({
   alerts: state.alert,
 });
-
+//'mapStateToProps' passed in allows for its props to be used and destructured above
 export default connect(mapStateToProps)(Alert);

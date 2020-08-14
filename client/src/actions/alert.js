@@ -10,9 +10,11 @@ export const setAlert = (msg, alertType) => (
 ) => {
   const id = uuid.v4();
 //If you look at your react dev tools in 'Action' you can see the payload data sent out from just the function below
+//the 'action' payload now has the data that you work with in the reducers/alert.js folder/file
   dispatch({
     type: SET_ALERT,
     payload: { msg, alertType, id },
   });
 
 };
+ 

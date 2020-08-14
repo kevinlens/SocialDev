@@ -115,4 +115,5 @@ Register.propTypes = {
 };
 
 //'{setAlert} passed in, generates the props to exist(you would then destructure it to {setAlert})'
+//You have to add the {setAlert} there in order to use it and then will be available within props, and the 'connect' allows you to work with redux
 export default connect(null, { setAlert })(Register);
