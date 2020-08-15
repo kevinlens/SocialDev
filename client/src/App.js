@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Route,
@@ -12,35 +12,46 @@ import Alert from './components/layout/Alert';
 // Redux
 import { Provider } from 'react-redux';
 import store from './store';
-
+import setAuthToken from './utils/setAuthToken';
+import { loadUser } from './actions/auth';
 import './App.css';
 
-const App = () => (
-  <Provider store={store}>
-    <Router>
-      <>
-        <Navbar />
-        {/* The background */}
-        <Route exact path="/" component={Landing} />
-        <section className="container">
-          <Alert />
-          {/* Switch is there because you want it to only execute a route upon specific url slash */}
-          <Switch>
-            <Route
-              exact
-              path="/register"
-              component={Register}
-            />
-            <Route
-              exact
-              path="/login"
-              component={Login}
-            />
-          </Switch>
-        </section>
-      </>
-    </Router>
-  </Provider>
-);
+if (localStorage.token) {
+  setAuthToken(localStorage.token);
+}
+
+const App = () => {
+  useEffect(() => {
+    store.dispatch(loadUser());
+  }, []);
+
+  return (
+    <Provider store={store}>
+      <Router>
+        <>
+          <Navbar />
+          {/* The background */}
+          <Route exact path="/" component={Landing} />
+          <section className="container">
+            <Alert />
+            {/* Switch is there because you want it to only execute a route upon specific url slash */}
+            <Switch>
+              <Route
+                exact
+                path="/register"
+                component={Register}
+              />
+              <Route
+                exact
+                path="/login"
+                component={Login}
+              />
+            </Switch>
+          </section>
+        </>
+      </Router>
+    </Provider>
+  );
+};
 
 export default App;

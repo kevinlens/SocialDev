@@ -4,6 +4,7 @@ import {
 } from '../actions/types';
 
 //The state in which stores all the dispatched actions data state
+//The state in which we store globally and can be accessed anywhere, you can see it visually in react dev tool
 const initialState = [];
 
 //'action' is the action from the react dex tool payload storage sent from the file actions/alert.js
