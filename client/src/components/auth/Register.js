@@ -3,9 +3,11 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { setAlert } from '../../actions/alert';
+import { register } from '../../actions/auth';
+
 import PropTypes from 'prop-types';
 
-const Register = ({ setAlert }) => {
+const Register = ({ setAlert, register }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -31,7 +33,7 @@ const Register = ({ setAlert }) => {
     if (password !== password2) {
       setAlert('Passwords do not match', 'danger');
     } else {
-      console.log('SUCCESS');
+      register({name, email, password});
     }
   };
 
@@ -112,8 +114,11 @@ const Register = ({ setAlert }) => {
 //setting the name of the component(Register)'s propType 'setAlert' to...
 Register.propTypes = {
   setAlert: PropTypes.func.isRequired,
+  register: PropTypes.func.isRequired,
 };
 
 //'{setAlert} passed in, generates the props to exist(you would then destructure it to {setAlert})'
 //You have to add the {setAlert} there in order to use it and then will be available within props, and the 'connect' allows you to work with redux
-export default connect(null, { setAlert })(Register);
+export default connect(null, { setAlert, register })(
+  Register
+);

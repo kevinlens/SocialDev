@@ -3,6 +3,7 @@ import {
   REMOVE_ALERT,
 } from '../actions/types';
 
+//The state in which stores all the dispatched actions data state
 const initialState = [];
 
 //'action' is the action from the react dex tool payload storage sent from the file actions/alert.js
