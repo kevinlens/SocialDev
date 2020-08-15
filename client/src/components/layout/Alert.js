@@ -23,6 +23,7 @@ Alert.propTypes = {
 
 //Fetch the alert state from the 'redux dev tool array' into this component
 //mapping the redux state to ----> this props so that we have access to it
+//access to global state 'initialState of reducers/alert'
 const mapStateToProps = (state) => ({
   //'state' of the redux dev tool and '.alert' of first tree array name in 'state'
   //To be able to loop through the 'alert' ARRAY passed in from the reducers files 

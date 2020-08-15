@@ -71,6 +71,8 @@ export const register = ({
       //note: the 'payload: res.data' now has the token sent back from server to be used for verification
       payload: res.data,
     });
+
+    dispatch(loadUser());
     //
   } catch (err) {
     //
@@ -126,6 +128,8 @@ export const login = (email, password) => async (
       //note: the 'payload: res.data' now has the token sent back from server to be used for verification
       payload: res.data,
     });
+
+    dispatch(loadUser());
     //
   } catch (err) {
     //
