@@ -6,10 +6,7 @@ const User = require('../../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
-const {
-  check,
-  validationResult,
-} = require('express-validator');
+const { check, validationResult } = require('express-validator');
 
 // @route     GET api/auth
 // @descrip   Test Route
@@ -17,9 +14,7 @@ const {
 router.get('/', auth, async (req, res) => {
   try {
     //req.user is from auth.js setting it to an ID
-    const user = await User.findById(
-      req.user.id
-    ).select('-password');
+    const user = await User.findById(req.user.id).select('-password');
     res.json(user);
   } catch (err) {
     console.error(err.message);
@@ -33,10 +28,7 @@ router.get('/', auth, async (req, res) => {
 router.post(
   '/',
   [
-    check(
-      'email',
-      'Please include a valid email'
-    ).isEmail(),
+    check('email', 'Please include a valid email').isEmail(),
     check('password', 'Please is required').exists(),
   ],
   async (req, res) => {
@@ -65,10 +57,7 @@ router.post(
         });
       }
 
-      const isMatch = await bcrypt.compare(
-        password,
-        user.password
-      );
+      const isMatch = await bcrypt.compare(password, user.password);
 
       if (!isMatch) {
         return res.status(400).json({

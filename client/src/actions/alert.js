@@ -4,9 +4,7 @@ import { SET_ALERT, REMOVE_ALERT } from './types';
 
 //Actions are payloads of information that send data from your application to your store.
 //What Dispatch does: It dispatches an ACTION. This is the only way to trigger a state change.
-export const setAlert = (msg, alertType, timeout= 5000) => (
-  dispatch
-) => {
+export const setAlert = (msg, alertType, timeout = 5000) => (dispatch) => {
   const id = uuid.v4();
   //If you look at your react dev tools in 'Action' you can see the payload data sent out from just the function below
   //the 'action' payload now has the data that you work with in the reducers/alert.js folder/file
@@ -16,11 +14,13 @@ export const setAlert = (msg, alertType, timeout= 5000) => (
     payload: { msg, alertType, id },
   });
 
-  setTimeout(() =>
-    dispatch({
-      type: REMOVE_ALERT,
-      payload: id,
-    }),timeout
+  setTimeout(
+    () =>
+      dispatch({
+        type: REMOVE_ALERT,
+        payload: id,
+      }),
+    timeout
   );
   //
 };

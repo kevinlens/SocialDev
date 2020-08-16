@@ -6,10 +6,7 @@ const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
-const {
-  check,
-  validationResult,
-} = require('express-validator');
+const { check, validationResult } = require('express-validator');
 
 const User = require('../../models/User');
 
@@ -21,10 +18,7 @@ router.post(
   '/',
   [
     check('name', 'Name is required').not().isEmpty(),
-    check(
-      'email',
-      'Please include a valid email'
-    ).isEmail(),
+    check('email', 'Please include a valid email').isEmail(),
     check(
       'password',
       'Please enter a password with 6 or more characters'
@@ -72,10 +66,7 @@ router.post(
       });
       // Encrypt password
       const salt = await bcrypt.genSalt(10);
-      user.password = await bcrypt.hash(
-        password,
-        salt
-      );
+      user.password = await bcrypt.hash(password, salt);
       await user.save();
       // Return jsonwebtoken
       //payload stands for serialized JSON data about the user

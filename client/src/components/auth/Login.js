@@ -34,14 +34,10 @@ const Login = ({ login, isAuthenticated }) => {
       <h1 className="large text-primary">Sign In</h1>
 
       <p className="lead">
-        <i className="fas fa-user"></i> Sign Into Your
-        Account
+        <i className="fas fa-user"></i> Sign Into Your Account
       </p>
 
-      <form
-        className="form"
-        onSubmit={(e) => onSubmit(e)}
-      >
+      <form className="form" onSubmit={(e) => onSubmit(e)}>
         <div className="form-group">
           <input
             type="email"
@@ -63,11 +59,7 @@ const Login = ({ login, isAuthenticated }) => {
             minLength="6"
           />
         </div>
-        <input
-          type="submit"
-          className="btn btn-primary"
-          value="Login"
-        />
+        <input type="submit" className="btn btn-primary" value="Login" />
       </form>
       <p className="my-1">
         Don't have an account?

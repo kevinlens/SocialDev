@@ -19,10 +19,7 @@ module.exports = function (req, res, next) {
     //     iat: 1596087141,
     //     exp: 1596447141
     // }
-    const decoded = jwt.verify(
-      token,
-      config.get('jwtSecret')
-    );
+    const decoded = jwt.verify(token, config.get('jwtSecret'));
     //making req.user be the id for later usage
     req.user = decoded.user;
     next();

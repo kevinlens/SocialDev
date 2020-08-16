@@ -7,11 +7,7 @@ import { register } from '../../actions/auth';
 
 import PropTypes from 'prop-types';
 
-const Register = ({
-  setAlert,
-  register,
-  isAuthenticated,
-}) => {
+const Register = ({ setAlert, register, isAuthenticated }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -19,12 +15,7 @@ const Register = ({
     password2: '',
   });
 
-  const {
-    name,
-    email,
-    password,
-    password2,
-  } = formData;
+  const { name, email, password, password2 } = formData;
 
   const onChange = (e) =>
     setFormData({
@@ -41,7 +32,7 @@ const Register = ({
     }
   };
 
-  if (isAuthenticated ) {
+  if (isAuthenticated) {
     return <Redirect to="/dashboard" />;
   }
 
@@ -50,14 +41,10 @@ const Register = ({
       <h1 className="large text-primary">Sign Up</h1>
 
       <p className="lead">
-        <i className="fas fa-user"></i> Create Your
-        Account
+        <i className="fas fa-user"></i> Create Your Account
       </p>
 
-      <form
-        className="form"
-        onSubmit={(e) => onSubmit(e)}
-      >
+      <form className="form" onSubmit={(e) => onSubmit(e)}>
         <div className="form-group">
           <input
             type="text"
@@ -80,8 +67,7 @@ const Register = ({
           />
 
           <small className="form-text">
-            This site uses Gravatar so if you want a
-            profile image, use a Gravatar email
+            This site uses Gravatar so if you want a profile image, use a Gravatar email
           </small>
         </div>
 
@@ -105,11 +91,7 @@ const Register = ({
             minLength="6"
           />
         </div>
-        <input
-          type="submit"
-          className="btn btn-primary"
-          value="Register"
-        />
+        <input type="submit" className="btn btn-primary" value="Register" />
       </form>
       <p className="my-1">
         Already have an account?

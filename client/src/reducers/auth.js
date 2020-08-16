@@ -5,6 +5,7 @@ import {
   AUTH_ERROR,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
+  LOGOUT,
 } from '../actions/types';
 
 //The state in which stores all the dispatched actions data state
@@ -16,10 +17,7 @@ const initialState = {
   user: null,
 };
 
-export default function (
-  state = initialState,
-  action
-) {
+export default function (state = initialState, action) {
   //if there is any changes in the 'action tab' of react dev tools activate the programs below
   const { type, payload } = action;
 
@@ -51,6 +49,7 @@ export default function (
     case REGISTER_FAIL:
     case AUTH_ERROR:
     case LOGIN_FAIL:
+    case LOGOUT:
       localStorage.removeItem('token');
       return {
         //pass in current global state and update it with the declarations below

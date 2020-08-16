@@ -7,6 +7,7 @@ import {
   AUTH_ERROR,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
+  LOGOUT,
 } from './types';
 
 import setAuthToken from '../utils/setAuthToken';
@@ -18,9 +19,7 @@ export const loadUser = () => async (dispatch) => {
   }
 
   try {
-    const res = await axios.get(
-      '/api/authenticateUser'
-    );
+    const res = await axios.get('/api/authenticateUser');
     //If you look at your react dev tools in 'Action' you can see the payload data sent out from just the function below
     //the 'action' payload now has the data that you work with in the reducers/auth.js folder/file
     //the 'type' is also set from the dispatch for the reducers/auth.js file to distinguish and read
@@ -39,11 +38,7 @@ export const loadUser = () => async (dispatch) => {
 // ======================================================================
 
 // Register User
-export const register = ({
-  name,
-  email,
-  password,
-}) => async (dispatch) => {
+export const register = ({ name, email, password }) => async (dispatch) => {
   //
   const config = {
     headers: {
@@ -60,11 +55,7 @@ export const register = ({
 
   try {
     //
-    const res = await axios.post(
-      '/api/users',
-      body,
-      config
-    );
+    const res = await axios.post('/api/users', body, config);
     //Send the data to react dev tool 'Action' tab
     dispatch({
       type: REGISTER_SUCCESS,
@@ -82,9 +73,7 @@ export const register = ({
     if (errors) {
       //invoke the dispatch ACTION function 'setAlert'
       //for every error that exist in the array print out its messages in the pre-built component
-      errors.forEach((error) =>
-        dispatch(setAlert(error.msg, 'danger'))
-      );
+      errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
     }
     //cause a change in the redux dev tool 'action' to which reducers/auth file is invoked
     dispatch({
@@ -99,9 +88,7 @@ export const register = ({
 //========================================================================================
 
 // Login User
-export const login = (email, password) => async (
-  dispatch
-) => {
+export const login = (email, password) => async (dispatch) => {
   //
   const config = {
     headers: {
@@ -117,11 +104,7 @@ export const login = (email, password) => async (
 
   try {
     //
-    const res = await axios.post(
-      '/api/authenticateUser',
-      body,
-      config
-    );
+    const res = await axios.post('/api/authenticateUser', body, config);
     //Send the data to react dev tool 'Action' tab
     dispatch({
       type: LOGIN_SUCCESS,
@@ -139,9 +122,7 @@ export const login = (email, password) => async (
     if (errors) {
       //invoke the dispatch ACTION function 'setAlert'
       //for every error that exist in the array print out its messages in the pre-built component
-      errors.forEach((error) =>
-        dispatch(setAlert(error.msg, 'danger'))
-      );
+      errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
     }
     //cause a change in the redux dev tool 'action' to which reducers/auth file is invoked
     dispatch({
@@ -151,4 +132,11 @@ export const login = (email, password) => async (
   }
 
   //
+};
+
+//=============================================================================
+export const logout = () => (dispatch) => {
+  dispatch({
+    type: LOGOUT,
+  });
 };

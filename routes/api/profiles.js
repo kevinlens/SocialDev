@@ -3,10 +3,7 @@ const express = require('express');
 const router = express.Router();
 const config = require('config');
 const auth = require('../../middleware/authenticateToken');
-const {
-  check,
-  validationResult,
-} = require('express-validator');
+const { check, validationResult } = require('express-validator');
 //To send request to Github's API
 const request = require('request');
 const Profile = require('../../models/Profile');
@@ -42,12 +39,8 @@ router.post(
   [
     auth,
     [
-      check('status', 'status is required')
-        .not()
-        .isEmpty(),
-      check('skills', 'Skills is required')
-        .not()
-        .isEmpty(),
+      check('status', 'status is required').not().isEmpty(),
+      check('skills', 'Skills is required').not().isEmpty(),
     ],
   ],
   async (req, res) => {
@@ -81,27 +74,19 @@ router.post(
     if (location) profileFields.location = location;
     if (bio) profileFields.bio = bio;
     if (status) profileFields.status = status;
-    if (githubusername)
-      profileFields.githubusername = githubusername;
+    if (githubusername) profileFields.githubusername = githubusername;
     if (skills) {
       //turn object into an array,trim() removes all whitespaces from string
-      profileFields.skills = skills
-        .split(',')
-        .map((skill) => skill.trim());
+      profileFields.skills = skills.split(',').map((skill) => skill.trim());
     }
 
     //Build social object
     profileFields.social = {};
-    if (youtube)
-      profileFields.social.youtube = youtube;
-    if (twitter)
-      profileFields.social.twitter = twitter;
-    if (facebook)
-      profileFields.social.facebook = facebook;
-    if (linkedin)
-      profileFields.social.linkedin = linkedin;
-    if (instagram)
-      profileFields.social.instagram = instagram;
+    if (youtube) profileFields.social.youtube = youtube;
+    if (twitter) profileFields.social.twitter = twitter;
+    if (facebook) profileFields.social.facebook = facebook;
+    if (linkedin) profileFields.social.linkedin = linkedin;
+    if (instagram) profileFields.social.instagram = instagram;
 
     try {
       let profile = await Profile.findOne({
@@ -137,10 +122,7 @@ router.post(
 
 router.get('/', async (req, res) => {
   try {
-    const profiles = await Profile.find().populate(
-      'user',
-      ['name', 'avatar']
-    );
+    const profiles = await Profile.find().populate('user', ['name', 'avatar']);
     res.json(profiles);
   } catch (err) {
     console.error(err.message);
@@ -151,31 +133,28 @@ router.get('/', async (req, res) => {
 // @route     GET api/profiles/profile/user/:user_id
 // @descrip   Get profile by user ID
 // @access    Public
-router.get(
-  '/profile/user/:user_id',
-  async (req, res) => {
-    try {
-      const profile = await Profile.findOne({
-        user: req.params.user_id,
-      }).populate('user', ['name', 'avatar']);
+router.get('/profile/user/:user_id', async (req, res) => {
+  try {
+    const profile = await Profile.findOne({
+      user: req.params.user_id,
+    }).populate('user', ['name', 'avatar']);
 
-      if (!profile)
-        return res.status(400).json({
-          msg: 'Profile not found',
-        });
+    if (!profile)
+      return res.status(400).json({
+        msg: 'Profile not found',
+      });
 
-      res.json(profile);
-    } catch (err) {
-      console.error(err.message);
-      if (err.kind == 'ObjectId') {
-        return res.status(400).json({
-          msg: 'Profile not found',
-        });
-      }
-      res.status(500).send('Server Error');
+    res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind == 'ObjectId') {
+      return res.status(400).json({
+        msg: 'Profile not found',
+      });
     }
+    res.status(500).send('Server Error');
   }
-);
+});
 
 // @route     DELETE api/profile
 // @descrip   Delete profile, user & posts
@@ -211,29 +190,15 @@ router.put(
   '/experience',
   [
     auth,
-    [
-      check('title', 'Title is required')
-        .not()
-        .isEmpty(),
-    ],
-    [
-      check('company', 'Company is required')
-        .not()
-        .isEmpty(),
-    ],
-    [
-      check('from', 'From data is required')
-        .not()
-        .isEmpty(),
-    ],
+    [check('title', 'Title is required').not().isEmpty()],
+    [check('company', 'Company is required').not().isEmpty()],
+    [check('from', 'From data is required').not().isEmpty()],
   ],
   async (req, res) => {
     //Errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res
-        .status(400)
-        .json({ errors: errors.array() });
+      return res.status(400).json({ errors: errors.array() });
     }
     //
     const {
@@ -283,31 +248,27 @@ router.put(
 // @descrip   Delete experience from profile
 // @access    Private
 
-router.delete(
-  '/experience/:exp_id',
-  auth,
-  async (req, res) => {
-    try {
-      const profile = await Profile.findOne({
-        user: req.user.id,
-      });
+router.delete('/experience/:exp_id', auth, async (req, res) => {
+  try {
+    const profile = await Profile.findOne({
+      user: req.user.id,
+    });
 
-      //For every item within the [experience array], that has the same id to req.params.exp_id, return its id
-      const removeIndex = profile.experience
-        .map((item) => item.id)
-        .indexOf(req.params.exp_id);
-      //remove one of the item with the id from experience
-      profile.experience.splice(removeIndex, 1);
-      await profile.save();
-      //
-      res.json(profile);
-      //
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).send('Server Error');
-    }
+    //For every item within the [experience array], that has the same id to req.params.exp_id, return its id
+    const removeIndex = profile.experience
+      .map((item) => item.id)
+      .indexOf(req.params.exp_id);
+    //remove one of the item with the id from experience
+    profile.experience.splice(removeIndex, 1);
+    await profile.save();
+    //
+    res.json(profile);
+    //
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
   }
-);
+});
 
 //========================================================================================
 
@@ -319,37 +280,16 @@ router.put(
   '/education',
   [
     auth,
-    [
-      check('school', 'School is required')
-        .not()
-        .isEmpty(),
-    ],
-    [
-      check('degree', 'Degree is required')
-        .not()
-        .isEmpty(),
-    ],
-    [
-      check(
-        'fieldofstudy',
-        'Field of study is required'
-      )
-        .not()
-        .isEmpty(),
-    ],
-    [
-      check('from', 'From data is required')
-        .not()
-        .isEmpty(),
-    ],
+    [check('school', 'School is required').not().isEmpty()],
+    [check('degree', 'Degree is required').not().isEmpty()],
+    [check('fieldofstudy', 'Field of study is required').not().isEmpty()],
+    [check('from', 'From data is required').not().isEmpty()],
   ],
   async (req, res) => {
     //Errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res
-        .status(400)
-        .json({ errors: errors.array() });
+      return res.status(400).json({ errors: errors.array() });
     }
     //
     const {
@@ -399,31 +339,27 @@ router.put(
 // @descrip   Delete education from profile
 // @access    Private
 
-router.delete(
-  '/education/:edu_id',
-  auth,
-  async (req, res) => {
-    try {
-      const profile = await Profile.findOne({
-        user: req.user.id,
-      });
+router.delete('/education/:edu_id', auth, async (req, res) => {
+  try {
+    const profile = await Profile.findOne({
+      user: req.user.id,
+    });
 
-      //For every item within the [experience array], that has the same id to req.params.exp_id, return its id
-      const removeIndex = profile.education
-        .map((item) => item.id)
-        .indexOf(req.params.edu_id);
-      //remove one of the item with the id from experience
-      profile.education.splice(removeIndex, 1);
-      await profile.save();
-      //
-      res.json(profile);
-      //
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).send('Server Error');
-    }
+    //For every item within the [experience array], that has the same id to req.params.exp_id, return its id
+    const removeIndex = profile.education
+      .map((item) => item.id)
+      .indexOf(req.params.edu_id);
+    //remove one of the item with the id from experience
+    profile.education.splice(removeIndex, 1);
+    await profile.save();
+    //
+    res.json(profile);
+    //
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
   }
-);
+});
 
 //========================================================================================
 
@@ -448,9 +384,7 @@ router.get('/profile/github/:username', (req, res) => {
       if (error) console.error(error);
       // if not 'success'
       if (response.statusCode !== 200) {
-        res
-          .status(404)
-          .json({ msg: 'No Github profile found' });
+        res.status(404).json({ msg: 'No Github profile found' });
       }
       //
       res.json(JSON.parse(body));
