@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 
 //Get the {alerts} destructered from the state props 'mapStateToProps'
 //Loop through the 'alerts' ARRAY passed in from the reducers files
+//If any error exist in global state error array, print out the alert component with its messages
 const Alert = ({ alerts }) =>
   alerts !== null &&
   alerts.length > 0 &&
@@ -24,6 +25,7 @@ Alert.propTypes = {
 const mapStateToProps = (state) => ({
   //'state' of the redux dev tool and '.alert' of first tree array name in 'state'
   //To be able to loop through the 'alert' ARRAY passed in from the reducers files
+  //this entire array of errror should display on the page if there exist any errors
   alerts: state.alert,
 });
 //'mapStateToProps' passed in allows for its props to be used and destructured above

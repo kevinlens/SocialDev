@@ -14,6 +14,7 @@ export const setAlert = (msg, alertType, timeout = 5000) => (dispatch) => {
     payload: { msg, alertType, id },
   });
 
+  //after time is up start individually removing alert items in array with similar id
   setTimeout(
     () =>
       dispatch({

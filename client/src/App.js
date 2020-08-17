@@ -30,7 +30,7 @@ const App = () => {
         <>
           <Navbar />
           {/* The background */}
-          <Route exact path="/" component={Landing} />
+          <Route exact path="/" component ={Landing} />
           <section className="container">
             <Alert />
             {/* Switch is there because you want it to only execute a route upon specific url slash */}

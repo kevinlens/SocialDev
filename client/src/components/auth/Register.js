@@ -1,3 +1,5 @@
+/*Note: useEffect can also act the same way as componentDidMount(), 
+meaing execute upon: page refresh or page load, by using '[]' it will do it only once*/
 import React, { useState } from 'react';
 //Connects component to Redux
 import { connect } from 'react-redux';
