@@ -38,7 +38,7 @@ const CreateProfile = (props) => {
   } = formData;
 
   const onChange = (e) =>
-    setFormData({ ...formData, [e.target.value]: e.target.value });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
 
   return (
     <>
@@ -50,7 +50,7 @@ const CreateProfile = (props) => {
       <small>* = required field</small>
       <form className="form">
         <div className="form-group">
-          {/* 'Senior Developer' inputted into {status} meaning {status} value will now be 'Senior Developer' */}
+          {/* 'Senior Developer' inputted into value={status} meaning, name='status' value will now be 'Senior Developer' */}
           <select name="status" value={status} onChange={(e) => onChange(e)}>
             <option value="0">* Select Professional Status</option>
             <option value="Developer">Developer</option>
