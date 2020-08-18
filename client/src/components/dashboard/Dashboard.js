@@ -1,6 +1,7 @@
 /*Note: useEffect can also act the same way as componentDidMount(), 
 meaing execute upon: page refresh or page load, by using '[]' it will do it only once*/
 import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
@@ -26,6 +27,17 @@ const Dashboard = ({
         {/* if the 'user' exist, then show username */}
         <i className="fas fa-user"> Welcome {user && user.name}</i>
       </p>
+
+      {profile !== null ? (
+        <>Has</>
+      ) : (
+        <>
+          <p>You have not yet setup a profile, please add some info</p>
+          <Link to="/create-profile" className="btn btn-primary my-1">
+            Create Profile
+          </Link>
+        </>
+      )}
     </>
   );
   //

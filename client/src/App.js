@@ -6,6 +6,7 @@ import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import Alert from './components/layout/Alert';
 import Dashboard from './components/dashboard/Dashboard';
+import CreateProfile from './components/profile-forms/CreateProfile';
 import PrivateRoute from './components/routing/PrivateRoute';
 
 // Redux
@@ -30,7 +31,7 @@ const App = () => {
         <>
           <Navbar />
           {/* The background */}
-          <Route exact path="/" component ={Landing} />
+          <Route exact path="/" component={Landing} />
           <section className="container">
             <Alert />
             {/* Switch is there because you want it to only execute a route upon specific url slash */}
@@ -38,6 +39,11 @@ const App = () => {
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
               <PrivateRoute exact path="/dashboard" component={Dashboard} />
+              <PrivateRoute
+                exact
+                path="/create-profile"
+                component={CreateProfile}
+              />
             </Switch>
           </section>
         </>
