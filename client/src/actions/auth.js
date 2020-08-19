@@ -124,7 +124,7 @@ export const login = (email, password) => async (dispatch) => {
       //invoke the dispatch ACTION function 'setAlert'
       //for every error that exist in the array print out its messages in the pre-built component
       errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
-    }
+    } 
     //cause a change in the redux dev tool 'action' to which reducers/auth file is invoked
     dispatch({
       type: LOGIN_FAIL,

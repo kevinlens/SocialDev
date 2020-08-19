@@ -33,6 +33,7 @@ const App = () => {
           {/* The background */}
           <Route exact path="/" component={Landing} />
           <section className="container">
+            {/* this alert(warning) should show on every page when there is an error */}
             <Alert />
             {/* Switch is there because you want it to only execute a route upon specific url slash */}
             <Switch>

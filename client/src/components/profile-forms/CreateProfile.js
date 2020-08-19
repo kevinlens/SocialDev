@@ -1,10 +1,14 @@
 /*Note: useEffect can also act the same way as componentDidMount(), 
 meaing execute upon: page refresh or page load, by using '[]' it will do it only once*/
 import React, { useState } from 'react';
+//'withRouter' allows you to work with history Object like 'history.push'
+import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+//allows you to work with redux and global state
 import { connect } from 'react-redux';
+import { createProfile } from '../../actions/profile';
 
-const CreateProfile = (props) => {
+const CreateProfile = ({ createProfile, history }) => {
   const [formData, setFormData] = useState({
     company: '',
     website: '',
@@ -40,6 +44,10 @@ const CreateProfile = (props) => {
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
+  const onSubmit = (e) => {
+    e.preventDefault();
+    createProfile(formData, history);
+  };
   return (
     <>
       <h1 className="large text-primary">Create Your Profile</h1>
@@ -48,7 +56,7 @@ const CreateProfile = (props) => {
         profile stand out
       </p>
       <small>* = required field</small>
-      <form className="form">
+      <form className="form" onSubmit={(e) => onSubmit(e)}>
         <div className="form-group">
           {/* 'Senior Developer' inputted into value={status} meaning, name='status' value will now be 'Senior Developer' */}
           <select name="status" value={status} onChange={(e) => onChange(e)}>
@@ -218,6 +226,9 @@ const CreateProfile = (props) => {
   );
 };
 
-CreateProfile.propTypes = {};
+CreateProfile.propTypes = {
+  createProfile: PropTypes.func.isRequired,
+};
 
-export default CreateProfile;
+//'withRouter' allows us to have access to the object 'history'
+export default connect(null, { createProfile })(withRouter(CreateProfile));
