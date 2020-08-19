@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Spinner from '../layout/Spinner';
 
 //destructure the 'component' and get whatever component is passed from the user into it
 const PrivateRoute = ({
@@ -14,11 +15,17 @@ const PrivateRoute = ({
     //'...rest' means taking anything else that is passed in and spreading it
     {...rest}
     render={(props) =>
-      !isAuthenticated && !loading ? (
-        <Redirect to="/login" />
-      ) : (
+      /*while loading is still 'true' upon refresh/load of page, display spinner. After fetch data from database and authenticating
+      and setting loading to false, check data to see if user is authenticated or not, if not, redirect to login page */
+      //'loading' provides time for fetching data, and is set to 'false' after its done.
+      loading ? (
+        <Spinner />
+      ) : isAuthenticated ? (
         <Component {...props} />
+      ) : (
+        <Redirect to="/login" />
       )
+      //
     }
   />
 );
