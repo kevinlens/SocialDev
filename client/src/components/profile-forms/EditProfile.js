@@ -1,14 +1,22 @@
 /*Note: useEffect can also act the same way as componentDidMount(), 
 meaing execute upon: page refresh or page load, by using '[]' it will do it only once*/
-import React, { useState } from 'react';
+/*useEffect() allows you to run getCurrentProfile and fetch the data from global state and store 
+it here in our current state. All this to update the current user*/
+import React, { useState, useEffect } from 'react';
 //'withRouter' allows you to work with history Object like 'history.push'
 import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 //allows you to work with redux and global state
 import { connect } from 'react-redux';
-import { createProfile } from '../../actions/profile';
+//createProfile is to update it to the database
+import { createProfile, getCurrentProfile } from '../../actions/profile';
 
-const CreateProfile = ({ createProfile, history }) => {
+const EditProfile = ({
+  profile: { profile, loading },
+  createProfile,
+  getCurrentProfile,
+  history,
+}) => {
   const [formData, setFormData] = useState({
     company: '',
     website: '',
@@ -25,6 +33,27 @@ const CreateProfile = ({ createProfile, history }) => {
   });
 
   const [displaySocialInputs, toggleSocialInputs] = useState(false);
+
+  useEffect(() => {
+    getCurrentProfile();
+
+    // if the current state of like 'company' is true, then empty it so the user can refill the info
+    setFormData({
+      company: loading || !profile.company ? '' : profile.company,
+      website: loading || !profile.website ? '' : profile.website,
+      location: loading || !profile.location ? '' : profile.location,
+      status: loading || !profile.status ? '' : profile.status,
+      skills: loading || !profile.skills ? '' : profile.skills.join(','),
+      githubusername:
+        loading || !profile.githubusername ? '' : profile.githubusername,
+      bio: loading || !profile.bio ? '' : profile.bio,
+      twitter: loading || !profile.social ? '' : profile.social.twitter,
+      facebook: loading || !profile.social ? '' : profile.social.facebook,
+      linkedin: loading || !profile.social ? '' : profile.social.linkedin,
+      youtube: loading || !profile.social ? '' : profile.social.youtube,
+      instagram: loading || !profile.social ? '' : profile.social.instagram,
+    });
+  }, [loading]);
 
   const {
     company,
@@ -48,7 +77,6 @@ const CreateProfile = ({ createProfile, history }) => {
     e.preventDefault();
     createProfile(formData, history);
   };
-  
   return (
     <>
       <h1 className="large text-primary">Create Your Profile</h1>
@@ -229,7 +257,16 @@ const CreateProfile = ({ createProfile, history }) => {
 
 CreateProfile.propTypes = {
   createProfile: PropTypes.func.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired,
+  profile: PropTypes.object.isRequired,
 };
 
+//get the global state from reducers/profile
+const mapStateToProps = (state = {
+  profile: state.profile,
+});
+
 //'withRouter' allows us to have access to the object 'history'
-export default connect(null, { createProfile })(withRouter(CreateProfile));
+export default connect(mapStateToProps, { createProfile, getCurrentProfile })(
+  withRouter(CreateProfile)
+);
