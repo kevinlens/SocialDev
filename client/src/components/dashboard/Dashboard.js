@@ -17,8 +17,9 @@ const Dashboard = ({
   useEffect(() => {
     getCurrentProfile();
   }, []);
-  //usesEffect-->getCurrentProfile is running synchronously(meaning it doesn't wait) therefore 'loading' has a chance to be true(loading)
-  //'loading is true, && profile === null'
+/*useEffect --> getCurrentProfile is running synchronously(meaning it doesn't wait) so while it is fetching data the default
+'loading: true' remains the same until the data is fetched. This is important because if we don't have it there the program would
+assume the empty 'profile' of the user does not exist and then display the component 'create profile' rather than wait for the user's data from the database*/
   return loading && profile === null ? (
     <Spinner />
   ) : (

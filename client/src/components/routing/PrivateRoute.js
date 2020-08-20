@@ -15,8 +15,8 @@ const PrivateRoute = ({
     //'...rest' means taking anything else that is passed in and spreading it
     {...rest}
     render={(props) =>
-      /*while loading is still 'true' upon refresh/load of page, display spinner. After fetch data from database and authenticating
-      and setting loading to false, check data to see if user is authenticated or not, if not, redirect to login page */
+      /*while loading is still 'true' upon refresh/load of page, display spinner. After fetch data from database, default 
+      'isAuthenticated: null' is set to T/F and 'loading' to false, check data to see if user is authenticated or not, if not, redirect to login page */
       //'loading' provides time for fetching data, and is set to 'false' after its done.
       loading ? (
         <Spinner />
