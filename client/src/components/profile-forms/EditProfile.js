@@ -33,11 +33,13 @@ const EditProfile = ({
   });
 
   const [displaySocialInputs, toggleSocialInputs] = useState(false);
-
+  /*Upon page load/refresh execute useEffect(), this which would theoretically fetch back profile data from database to 
+  the global state and set 'loading' to false.*/
   useEffect(() => {
+    //just in case user refeshes page and global state profile is lost
     getCurrentProfile();
-
-    // if the current state of like 'company' is true, then empty it so the user can refill the info
+    
+    /*If profile's loading is true */
     setFormData({
       company: loading || !profile.company ? '' : profile.company,
       website: loading || !profile.website ? '' : profile.website,
@@ -53,6 +55,11 @@ const EditProfile = ({
       youtube: loading || !profile.social ? '' : profile.social.youtube,
       instagram: loading || !profile.social ? '' : profile.social.instagram,
     });
+  /*when page loads, this function executes once, [loading] means if global state profile's: 'loading', gets changed to true/false
+  then execute useEffect() once again. BUT! If the user refreshes the page(the global state profile should goes back to default) 
+  then useEffect() executes once and if the 'getCurrentProfile' does not finish fetching data in time, the company: 'loading' should 
+  still be true and therefore setting it to null. And once 'getCurrentProfile' does finish, it automatically sets the global state profile
+  'loading' to false, this would cause the useEffect() to rerender and change 'company' property to global state profile.company */
   }, [loading]);
 
   const {
@@ -255,18 +262,18 @@ const EditProfile = ({
   );
 };
 
-CreateProfile.propTypes = {
+EditProfile.propTypes = {
   createProfile: PropTypes.func.isRequired,
   getCurrentProfile: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
 };
 
 //get the global state from reducers/profile
-const mapStateToProps = (state = {
+const mapStateToProps = state => ({
   profile: state.profile,
 });
 
 //'withRouter' allows us to have access to the object 'history'
 export default connect(mapStateToProps, { createProfile, getCurrentProfile })(
-  withRouter(CreateProfile)
+  withRouter(EditProfile)
 );
