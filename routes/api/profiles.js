@@ -182,12 +182,12 @@ router.delete('/profile', auth, async (req, res) => {
 });
 //========================================================================================
 
-// @route     PUT api/profiles/experience
+// @route     PUT api/profiles/profile/experience
 // @descrip   Add profile experience
 // @access    Private
 
 router.put(
-  '/experience',
+  '/profile/experience',
   [
     auth,
     [check('title', 'Title is required').not().isEmpty()],
@@ -244,11 +244,11 @@ router.put(
   }
 );
 
-// @route     PUT api/profiles/experience/:exp_id
+// @route     PUT api/profiles/profile/experience/:exp_id
 // @descrip   Delete experience from profile
 // @access    Private
 
-router.delete('/experience/:exp_id', auth, async (req, res) => {
+router.delete('/profile/experience/:exp_id', auth, async (req, res) => {
   try {
     const profile = await Profile.findOne({
       user: req.user.id,
@@ -272,12 +272,12 @@ router.delete('/experience/:exp_id', auth, async (req, res) => {
 
 //========================================================================================
 
-// @route     PUT api/profiles/education
+// @route     PUT api/profiles/profile/education
 // @descrip   Add profile education
 // @access    Private
 
 router.put(
-  '/education',
+  '/profile/education',
   [
     auth,
     [check('school', 'School is required').not().isEmpty()],
@@ -335,11 +335,11 @@ router.put(
   }
 );
 
-// @route     PUT api/profiles/education/:edu_id
+// @route     PUT api/profiles/profile/education/:edu_id
 // @descrip   Delete education from profile
 // @access    Private
 
-router.delete('/education/:edu_id', auth, async (req, res) => {
+router.delete('/profile/education/:edu_id', auth, async (req, res) => {
   try {
     const profile = await Profile.findOne({
       user: req.user.id,
