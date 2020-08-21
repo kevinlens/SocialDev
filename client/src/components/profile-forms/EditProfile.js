@@ -38,7 +38,7 @@ const EditProfile = ({
   useEffect(() => {
     //just in case user refeshes page and global state profile is lost
     getCurrentProfile();
-    
+
     /*If profile's loading is true */
     setFormData({
       company: loading || !profile.company ? '' : profile.company,
@@ -55,11 +55,12 @@ const EditProfile = ({
       youtube: loading || !profile.social ? '' : profile.social.youtube,
       instagram: loading || !profile.social ? '' : profile.social.instagram,
     });
-  /*when page loads, this function executes once, [loading] means if global state profile's: 'loading', gets changed to true/false
+    /*when page loads, this function executes once, [loading] means if global state profile's: 'loading', gets changed to true/false
   then execute useEffect() once again. BUT! If the user refreshes the page(the global state profile should goes back to default) 
-  then useEffect() executes once and if the 'getCurrentProfile' does not finish fetching data in time, the company: 'loading' should 
-  still be true and therefore setting it to null. And once 'getCurrentProfile' does finish, it automatically sets the global state profile
-  'loading' to false, this would cause the useEffect() to rerender and change 'company' property to global state profile.company */
+  then useEffect() executes once, and if the 'getCurrentProfile' does not finish fetching data in time, the company: 'loading' should 
+  still be true and therefore setting it to null. However, once 'getCurrentProfile' does finish, it automatically sets the global state profile
+  'loading' to false, this would cause the useEffect() to rerender and change 'company' property to global state profile.company rather than 'null' 
+  You can actually see for a split second how the fields are empty and then fills up the fields when reloading the page*/
   }, [loading]);
 
   const {
@@ -82,7 +83,7 @@ const EditProfile = ({
 
   const onSubmit = (e) => {
     e.preventDefault();
-    createProfile(formData, history);
+    createProfile(formData, history, true);
   };
   return (
     <>
@@ -254,9 +255,9 @@ const EditProfile = ({
         )}
 
         <input type="submit" className="btn btn-primary my-1" />
-        <a className="btn btn-light my-1" href="dashboard.html">
+        <Link className="btn btn-light my-1" to="/dashboard">
           Go Back
-        </a>
+        </Link>
       </form>
     </>
   );
@@ -269,7 +270,7 @@ EditProfile.propTypes = {
 };
 
 //get the global state from reducers/profile
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   profile: state.profile,
 });
 
