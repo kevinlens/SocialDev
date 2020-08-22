@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-//helps format our dates
+//helps format our dates bc the raw date that we get is unorganized
 import Moment from 'react-moment';
+import { deleteExperience } from '../../actions/profile';
 
-//{experience} passed through from Dashboard.js
-const Experience = ({ experience }) => {
+//{experience} is props with data passed though from Dashboard Component, {deleteExperience} is function we grab from actions/profile.js
+const Experience = ({ experience, deleteExperience }) => {
   //the experience section of the profile is an array, therefore loop through the array
   //for every item in array, create new unique elements(<tr></tr>) for each one of them
   const experiences = experience.map((exp) => (
@@ -21,7 +22,12 @@ const Experience = ({ experience }) => {
         )}
       </td>
       <td>
-        <button className="btn btn-danger">Delete</button>
+        <button
+          onClick={() => deleteExperience(exp._id)}
+          className="btn btn-danger"
+        >
+          Delete
+        </button>
       </td>
     </tr>
   ));
@@ -47,6 +53,7 @@ const Experience = ({ experience }) => {
 //'experience' from profile is an array so ptar
 Experience.propTypes = {
   experience: PropTypes.array.isRequired,
+  deleteExperience: PropTypes.func.isRequired,
 };
 
-export default Experience;
+export default connect(null, { deleteExperience })(Experience);

@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-//helps format our dates
+//helps format our dates bc the raw date that we get is unorganized
 import Moment from 'react-moment';
+import { deleteEducation } from '../../actions/profile';
 
-//{educationd} passed through from Dashboard.js
-const Education = ({ education }) => {
+//{education} is props with data passed though from Dashboard Component, {deleteEducation} is function we grab from actions/profile.js
+const Education = ({ education, deleteEducation }) => {
   //the education section of the profile is an array, therefore loop through the array
   //for every item in array, create new unique elements(<tr></tr>) for each one of them
   const educations = education.map((edu) => (
@@ -21,7 +22,12 @@ const Education = ({ education }) => {
         )}
       </td>
       <td>
-        <button className="btn btn-danger">Delete</button>
+        <button
+          onClick={() => deleteEducation(edu._id)}
+          className="btn btn-danger"
+        >
+          Delete
+        </button>
       </td>
     </tr>
   ));
@@ -33,8 +39,8 @@ const Education = ({ education }) => {
         <thead>
           <tr>
             <th>School</th>
-            <th className='hide-sm'>Degree</th>
-            <th className='hide-sm'>Years</th>
+            <th className="hide-sm">Degree</th>
+            <th className="hide-sm">Years</th>
             <th />
           </tr>
         </thead>
@@ -47,6 +53,7 @@ const Education = ({ education }) => {
 //'education' from profile is an array so ptar
 Education.propTypes = {
   education: PropTypes.array.isRequired,
+  deleteEducation: PropTypes.func.isRequired,
 };
 
-export default Education;
+export default connect(null, { deleteEducation })(Education);
