@@ -1,5 +1,4 @@
-/*Note: useEffect can also act the same way as componentDidMount(), 
-meaing execute upon: page refresh or page load, by using '[]' it will do it only once*/
+
 import React, { useState } from 'react';
 //'withRouter' allows you to work with history Object like 'history.push'
 import { Link, withRouter } from 'react-router-dom';
@@ -227,6 +226,8 @@ const CreateProfile = ({ createProfile, history }) => {
   );
 };
 
+/*propTypes aren't necessary they're just there to make sure if you're working in a team
+that someone doesn't mess up and pass in the wrong expected prop like array, object, or function*/
 CreateProfile.propTypes = {
   createProfile: PropTypes.func.isRequired,
 };

@@ -33,6 +33,8 @@ const Landing = ({ isAuthenticated }) => {
   );
 };
 
+/*propTypes aren't necessary they're just there to make sure if you're working in a team
+that someone doesn't mess up and pass in the wrong expected prop like array, object, or function*/
 Landing.propTypes = {
   isAuthenticated: PropTypes.bool,
 };

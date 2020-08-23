@@ -1,5 +1,4 @@
-/*Note: useEffect can also act the same way as componentDidMount(), 
-meaing execute upon: page refresh or page load, by using '[]' it will do it only once*/
+
 import React, { useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 //Connects component to Redux
@@ -71,7 +70,8 @@ const Login = ({ login, isAuthenticated }) => {
   );
 };
 
-//'login' will now be a props with a props type declared here, so it could be used in the function above
+/*propTypes aren't necessary they're just there to make sure if you're working in a team
+that someone doesn't mess up and pass in the wrong expected prop like array, object, or function*/
 Login.propTypes = {
   login: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool,

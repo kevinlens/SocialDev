@@ -8,6 +8,9 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
   const authLinks = (
     <ul>
       <li>
+        <Link to="/profiles">Developers</Link>
+      </li>
+      <li>
         <Link to="/dashboard">
           <i className="fas fa-user" />{' '}
           {/* this <span> with 'hide-sm' is to make the 'Dashboard' word disappear and show only the icon on small mobile device   */}
@@ -27,7 +30,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
   const guestLinks = (
     <ul>
       <li>
-        <a href="#!">Developers</a>
+        <Link to="/profiles">Developers</Link>
       </li>
       <li>
         <Link to="/register">Register</Link>
@@ -53,6 +56,8 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
   );
 };
 
+/*propTypes aren't necessary they're just there to make sure if you're working in a team
+that someone doesn't mess up and pass in the wrong expected prop like array, object, or function*/
 Navbar.propTypes = {
   logout: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,

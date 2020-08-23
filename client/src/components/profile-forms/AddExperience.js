@@ -117,8 +117,11 @@ const AddExperience = ({ addExperience, history }) => {
   );
 };
 
+/*propTypes aren't necessary they're just there to make sure if you're working in a team
+that someone doesn't mess up and pass in the wrong expected prop like array, object, or function*/
 AddExperience.propTypes = {
   addExperience: PropTypes.func.isRequired,
 };
+
 //'withRouter' allows you to work with history Object like 'history.push'
 export default connect(null, { addExperience })(withRouter(AddExperience));
