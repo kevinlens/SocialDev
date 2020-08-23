@@ -26,6 +26,7 @@ const ProfileItem = ({
         </Link>
       </div>
       <ul>
+        {/* display a maximum of 4 skills, also use that 'skill's index in the array as a key */}
         {skills.slice(0, 4).map((skill, index) => (
           <li key={index} className="text-primary">
             <i className="fas fa-check"></i>
