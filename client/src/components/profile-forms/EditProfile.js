@@ -61,7 +61,8 @@ const EditProfile = ({
   still be true and therefore setting it to null. However, once 'getCurrentProfile' does finish, it automatically sets the global state profile
   'loading' to false, this would cause the useEffect() to rerender and change 'company' property to global state profile.company rather than 'null' 
   You can actually see for a split second how the fields are empty and then fills up the fields when reloading the page*/
-  }, [loading]);
+    //'getCurrentProfile' is filling in the [] as a dependency to avoid terminal error messages
+  }, [loading, getCurrentProfile]);
 
   const {
     company,

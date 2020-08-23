@@ -91,7 +91,6 @@ const AddEducation = ({ addEducation, history }) => {
                 setFormData({ ...formData, current: !current });
               }}
               name="current"
-              value=""
             />{' '}
             Still Enrolled
           </p>

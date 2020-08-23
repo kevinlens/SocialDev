@@ -12,7 +12,8 @@ import { getProfiles } from '../../actions/profile';
 const Profiles = ({ getProfiles, profile: { profiles, loading } }) => {
   useEffect(() => {
     getProfiles();
-  }, []);
+    //this is just filling in the [] as a dependency to avoid terminal error messages
+  }, [getProfiles]);
   return (
     <>
     {/* when page is reset 'loading' turns to 'true' */}
