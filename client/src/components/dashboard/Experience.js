@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-//helps format our dates bc the raw date that we get is unorganized
+//helps format our date and time bc the raw date that we get is unorganized
 import Moment from 'react-moment';
 import { deleteExperience } from '../../actions/profile';
 
