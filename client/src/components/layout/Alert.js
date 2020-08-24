@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 //Loop through the 'alerts' ARRAY passed in from the reducers files
 //If any error exist in global state error array, print out the alert component with its messages
 const Alert = ({ alerts }) =>
+//If first statement is true THEN do next one and if true THEN do the third one and output element
   alerts !== null &&
   alerts.length > 0 &&
   alerts.map((alert) => (

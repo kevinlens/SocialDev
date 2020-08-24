@@ -32,7 +32,7 @@ assume the empty 'profile' of the user does not exist and then display the compo
     <>
       <h1 className="large text-primary">Dashboard</h1>
       <p className="lead">
-        {/* if the 'user' exist, then show username */}
+        {/* if the 'user' exist/true, THEN show username */}
         <i className="fas fa-user"> Welcome {user && user.name}</i>
       </p>
 
