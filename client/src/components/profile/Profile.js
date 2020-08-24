@@ -3,6 +3,7 @@ meaing execute upon: page refresh or page load, by using '[]' it will do it only
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+//Connects component to Redux
 import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
 import { getProfileById } from '../../actions/profile';
@@ -10,6 +11,7 @@ import ProfileTop from './ProfileTop';
 import ProfileAbout from './ProfileAbout';
 import ProfileExperience from './ProfileExperience';
 import ProfileEducation from './ProfileEducation';
+import ProfileGithub from './ProfileGithub';
 //instead of doing props.match, you can just destructure it to 'match'
 const Profile = ({
   getProfileById,
@@ -77,7 +79,10 @@ const Profile = ({
                 <h4>No education credentials</h4>
               )}
             </div>
-            
+            {/* if githubusername is true/exist THEN output component */}
+            {profile.githubusername && (
+              <ProfileGithub username={profile.githubusername} />
+            )}
           </div>
         </>
       )}

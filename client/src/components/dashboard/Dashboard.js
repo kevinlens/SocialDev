@@ -3,6 +3,7 @@ meaing execute upon: page refresh or page load, by using '[]' it will do it only
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+//Connects component to Redux
 import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
 import DashboardActions from './DashboardActions';
