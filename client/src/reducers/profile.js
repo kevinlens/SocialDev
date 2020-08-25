@@ -8,6 +8,7 @@ import {
 } from '../actions/types';
 
 //note: state is immutable that's why you have to ...state spread it
+//initialState is the global state which allows you to access it anywhere in your components
 const initialState = {
   profile: null,
   profiles: [],

@@ -11,7 +11,7 @@ import {
 
 //note: state is immutable that's why you have to ...state spread it
 //The state in which stores all the dispatched actions data state
-//The state in which we store globally and can be accessed anywhere, you can see it visually in react dev tool
+//The state in which we store globally and can be accessed anywhere in your components, you can see it visually in react dev tool
 const initialState = {
   token: localStorage.getItem('token'),
   isAuthenticated: null,
