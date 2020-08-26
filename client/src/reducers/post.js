@@ -1,4 +1,4 @@
-import { GET_POST, POST_ERROR } from '../actions/types';
+import { GET_POSTS, POST_ERROR } from '../actions/types';
 
 //initialState is the global state which allows you to access it anywhere in your components
 const initialState = {
