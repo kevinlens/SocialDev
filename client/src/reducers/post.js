@@ -4,7 +4,7 @@ import { GET_POST, POST_ERROR } from '../actions/types';
 const initialState = {
   post: null,
   posts: [],
-  loadding: true,
+  loading: true,
   error: {},
 };
 
@@ -18,5 +18,13 @@ export default function (state = initialState, action) {
         posts: payload,
         loading: false,
       };
+    case POST_ERROR:
+      return {
+        ...state,
+        posts: payload,
+        loading: false,
+      };      
+    default:
+      return state;
   }
 }
