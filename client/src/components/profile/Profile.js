@@ -98,7 +98,7 @@ Profile.propTypes = {
   auth: PropTypes.object.isRequired,
 };
 
-//to be able to connect to global state profile state and state auth
+//to be able to connect to global state profile state and state auth from reducer file
 const mapStateToProps = (state) => ({
   profile: state.profile,
   auth: state.auth,
