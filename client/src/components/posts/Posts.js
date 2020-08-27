@@ -5,20 +5,36 @@ import PropTypes from 'prop-types';
 //Connects component to Redux
 import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
+import PostItem from './PostItem';
 import { getPosts } from '../../actions/post';
 
-const Post = ({ getPosts, post: { posts, loading } }) => {
+const Posts = ({ getPosts, post: { posts, loading } }) => {
   useEffect(() => {
     getPosts();
     //this is just filling in the [] as a dependency to avoid terminal error messages
   }, [getPosts]);
 
-  return <div></div>;
+  return loading ? (
+    <Spinner />
+  ) : (
+    <>
+      <h1 className="large text-primary">Posts</h1>
+      <p className="lead">
+        <i className="fas fa-user">Welcome to the community</i>
+      </p>
+      {/* Post Form*/}
+      <div className="posts">
+        {posts.map(post => (
+          <PostItem key={post._id} post={post} />
+        ))}
+      </div>
+    </>
+  );
 };
 
 /*propTypes aren't necessary they're just there to make sure if you're working in a team
 that someone doesn't mess up and pass in the wrong expected prop like array, object, or function*/
-Post.propTypes = {
+Posts.propTypes = {
   getPosts: PropTypes.func.isRequired,
   post: PropTypes.object.isRequired,
 };
@@ -28,4 +44,4 @@ const mapStateToProps = (state) => ({
   post: state.post,
 });
 
-export default connect(mapStateToProps, { getPosts })(Post);
+export default connect(mapStateToProps, { getPosts })(Posts);

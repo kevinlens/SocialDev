@@ -12,7 +12,7 @@ const ProfileGithub = ({ username, getGithubRepos, repos }) => {
   useEffect(() => {
     getGithubRepos(username);
     //this is just filling in the [] as a dependency to avoid terminal error messages
-  }, [getGithubRepos]);
+  }, [getGithubRepos, username]);
 
   return (
     <section className="profile-github">

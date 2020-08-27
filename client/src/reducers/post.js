@@ -1,6 +1,8 @@
-import { GET_POSTS, POST_ERROR } from '../actions/types';
+import { GET_POSTS, POST_ERROR, UPDATE_LIKES } from '../actions/types';
 
 //initialState is the global state which allows you to access it anywhere in your components
+//note: state is immutable that's why you have to ...state spread it
+//The state in which stores all the dispatched actions data state
 const initialState = {
   post: null,
   posts: [],
@@ -21,9 +23,19 @@ export default function (state = initialState, action) {
     case POST_ERROR:
       return {
         ...state,
-        posts: payload,
+        erorr: payload,
         loading: false,
-      };      
+      };
+    case UPDATE_LIKES:
+      return {
+        ...state,
+        /*For every post in the 'posts' array global state, if anyone of them has the same id as the current user logged in Id,
+        THEN spread that current post and then set its property 'likes' to the new payload likes, else return the original and do nothing*/
+        posts: state.posts.map((post) =>
+          post._id === payload.id ? { ...post, likes: payload.likes } : post
+        ),
+        loading: false,
+      };
     default:
       return state;
   }

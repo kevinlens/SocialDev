@@ -22,7 +22,7 @@ const Profile = ({
   useEffect(() => {
     getProfileById(match.params.id);
     //this is just filling in the [] as a dependency to avoid terminal error messages
-  }, [getProfileById]);
+  }, [getProfileById, match.params.id]);
   return (
     <>
       {profile === null || loading ? (
