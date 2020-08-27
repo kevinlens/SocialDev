@@ -3,6 +3,7 @@ import {
   POST_ERROR,
   UPDATE_LIKES,
   DELETE_POST,
+  ADD_POST,
 } from '../actions/types';
 
 //initialState is the global state which allows you to access it anywhere in your components
@@ -25,6 +26,13 @@ export default function (state = initialState, action) {
         posts: payload,
         loading: false,
       };
+    case ADD_POST:
+      return {
+        ...state,
+        //the 'payload' is the new 'Post' object that will be added to the global state array 
+        posts: [...state.posts, payload],
+        loading: false,
+      };
     case DELETE_POST:
       return {
         ...state,
@@ -35,6 +43,7 @@ export default function (state = initialState, action) {
     case POST_ERROR:
       return {
         ...state,
+        //error could be like the res.status(400) returned from the backend
         erorr: payload,
         loading: false,
       };

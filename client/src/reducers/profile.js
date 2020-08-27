@@ -34,6 +34,7 @@ export default function (state = initialState, action) {
         profiles: payload,
         loading: false,
       };
+    //error could be like the res.status(400) returned from the backend
     case PROFILE_ERROR:
       return {
         ...state,

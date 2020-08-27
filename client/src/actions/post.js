@@ -1,6 +1,6 @@
 //so we could make request to the backend
 import axios from 'axios';
-import { GET_POSTS, POST_ERROR, UPDATE_LIKES, DELETE_POST } from './types';
+import { GET_POSTS, POST_ERROR, UPDATE_LIKES, DELETE_POST, ADD_POST } from './types';
 import { setAlert } from './alert';
 
 // Get posts
@@ -58,11 +58,10 @@ export const removeLike = (id) => async (dispatch) => {
 // Delete post
 export const deletePost = (id) => async (dispatch) => {
   try {
-    const res = await axios.delete(`/api/posts/${id}`);
+    await axios.delete(`/api/posts/${id}`);
 
     dispatch({
       type: DELETE_POST,
-      //return not only the res.data, but also the id
       payload: id,
     });
 
@@ -74,3 +73,31 @@ export const deletePost = (id) => async (dispatch) => {
     });
   }
 };
+
+// Add post
+export const addPost = (formData) => async (dispatch) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  try {
+    //'formData' and 'config' is kinda like how you worked with Postman, they're requirements
+    const res = await axios.post('/api/posts/', formData, config);
+
+    dispatch({
+      type: ADD_POST,
+      //new Post object that will be added to global post array
+      payload: res.data,
+    });
+
+    dispatch(setAlert('Post Created', 'success'));
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+ 
