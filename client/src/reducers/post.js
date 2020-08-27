@@ -1,4 +1,9 @@
-import { GET_POSTS, POST_ERROR, UPDATE_LIKES } from '../actions/types';
+import {
+  GET_POSTS,
+  POST_ERROR,
+  UPDATE_LIKES,
+  DELETE_POST,
+} from '../actions/types';
 
 //initialState is the global state which allows you to access it anywhere in your components
 //note: state is immutable that's why you have to ...state spread it
@@ -18,6 +23,13 @@ export default function (state = initialState, action) {
       return {
         ...state,
         posts: payload,
+        loading: false,
+      };
+    case DELETE_POST:
+      return {
+        ...state,
+        //filter through the global posts array state and creat new array without the one with id equal to the payloads id
+        posts: state.posts.filter((post) => post._id !== payload),
         loading: false,
       };
     case POST_ERROR:

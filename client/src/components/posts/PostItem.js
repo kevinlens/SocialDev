@@ -5,12 +5,13 @@ import { connect } from 'react-redux';
 //helps format our date and time bc the raw date that we get is unorganized
 import Moment from 'react-moment';
 import { Link } from 'react-router-dom';
-import { addLike, removeLike } from '../../actions/post';
+import { addLike, removeLike, deletePost } from '../../actions/post';
 
 //auth coming from global state, post prop passed through from Post.js file
 const PostItem = ({
   addLike,
   removeLike,
+  deletePost,
   auth,
   post: { _id, text, name, avatar, user, likes, comments, date },
 }) => {
@@ -56,7 +57,11 @@ const PostItem = ({
 
         {/*If auth.loading is no longer true THEN do if user === auth.user._id is true THEN do...*/}
         {!auth.loading && user === auth.user._id && (
-          <button type="button" className="btn btn-danger">
+          <button
+            onClick={(e) => deletePost(_id)}
+            type="button"
+            className="btn btn-danger"
+          >
             <i className="fas fa-times"></i>
           </button>
         )}
@@ -72,6 +77,7 @@ PostItem.propTypes = {
   auth: PropTypes.object.isRequired,
   addLike: PropTypes.func.isRequired,
   removeLike: PropTypes.func.isRequired,
+  deletePost: PropTypes.func.isRequired,
 };
 
 //to be able to connect to global state auth from reducers/auth file
@@ -79,4 +85,6 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { addLike, removeLike })(PostItem);
+export default connect(mapStateToProps, { addLike, removeLike, deletePost })(
+  PostItem
+);
