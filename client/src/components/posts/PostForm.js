@@ -18,8 +18,8 @@ const PostForm = ({ addPost }) => {
         onSubmit={(e) => {
           e.preventDefault();
           addPost({ text });
-          //clearing the formData
-          setText('');
+          //clearing the formData, also if you do it like setText('') without the space, the form will show up red after submission
+          setText(' ');
         }}
       >
         <textarea
