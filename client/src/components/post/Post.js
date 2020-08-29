@@ -7,7 +7,8 @@ import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
 import { getPost } from '../../actions/post';
 
-const Post = ({ getPost }) => {
+//instead of doing props.match, you can just destructure it to 'match', props.match is widely available
+const Post = ({ getPost, post: { post, loading }, match }) => {
   useEffect(() => {
     getPost(match.params.id);
     //this is just filling in the [] as a dependency to avoid terminal error messages

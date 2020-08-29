@@ -12,7 +12,7 @@ import ProfileAbout from './ProfileAbout';
 import ProfileExperience from './ProfileExperience';
 import ProfileEducation from './ProfileEducation';
 import ProfileGithub from './ProfileGithub';
-//instead of doing props.match, you can just destructure it to 'match'
+//instead of doing props.match, you can just destructure it to 'match', props.match is widely available
 const Profile = ({
   getProfileById,
   profile: { profile, loading },

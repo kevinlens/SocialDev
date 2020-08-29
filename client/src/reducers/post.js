@@ -11,8 +11,8 @@ import {
 //note: state is immutable that's why you have to ...state spread it
 //The state in which stores all the dispatched actions data state
 const initialState = {
-  post: null,
   posts: [],
+  post: null,
   loading: true,
   error: {},
 };
@@ -31,7 +31,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         post: payload,
-        loading: fales,
+        loading: false,
       };
     case ADD_POST:
       return {
