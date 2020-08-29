@@ -4,6 +4,7 @@ import {
   UPDATE_LIKES,
   DELETE_POST,
   ADD_POST,
+  GET_POST,
 } from '../actions/types';
 
 //initialState is the global state which allows you to access it anywhere in your components
@@ -26,10 +27,16 @@ export default function (state = initialState, action) {
         posts: payload,
         loading: false,
       };
+    case GET_POST:
+      return {
+        ...state,
+        post: payload,
+        loading: fales,
+      };
     case ADD_POST:
       return {
         ...state,
-        //the 'payload' is the new 'Post' object that will be added to the global state array 
+        //the 'payload' is the new 'Post' object that will be added to the global state array
         posts: [...state.posts, payload],
         loading: false,
       };
