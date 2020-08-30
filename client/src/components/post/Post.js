@@ -2,10 +2,12 @@
 meaing execute upon: page refresh or page load, by using '[]' it will do it only once*/
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 //Connects component to Redux
 import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
 import { getPost } from '../../actions/post';
+import PostItem from '../posts/PostItem';
 
 //instead of doing props.match, you can just destructure it to 'match', props.match is widely available
 const Post = ({ getPost, post: { post, loading }, match }) => {
@@ -14,7 +16,16 @@ const Post = ({ getPost, post: { post, loading }, match }) => {
     //this is just filling in the [] as a dependency to avoid terminal error messages
   }, [getPost]);
 
-  return <div></div>;
+  return loading || post === null ? (
+    <Spinner />
+  ) : (
+    <>
+      <Link to="/posts" className="btn">
+        Back to Posts
+      </Link>
+      <PostItem post={post} showActions={false} />
+    </>
+  );
 };
 
 /*propTypes aren't necessary they're just there to make sure if you're working in a team

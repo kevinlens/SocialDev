@@ -5,6 +5,7 @@ import {
   DELETE_POST,
   ADD_POST,
   GET_POST,
+  LOGOUT,
 } from '../actions/types';
 
 //initialState is the global state which allows you to access it anywhere in your components
@@ -63,6 +64,14 @@ export default function (state = initialState, action) {
           post._id === payload.id ? { ...post, likes: payload.likes } : post
         ),
         loading: false,
+      };
+    case LOGOUT:
+      return {
+        ...state,
+        posts: [],
+        post: null,
+        loading: true,
+        error: {},
       };
     default:
       return state;
