@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import Moment from 'react-moment';
 import { Link } from 'react-router-dom';
 import { addLike, removeLike, deletePost } from '../../actions/post';
-import Post from '../post/Post';
 
 //auth coming from global state, post prop passed through from Post.js file
 const PostItem = ({

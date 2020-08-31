@@ -8,13 +8,14 @@ import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
 import { getPost } from '../../actions/post';
 import PostItem from '../posts/PostItem';
+import CommentForm from '../post/CommentForm';
 
 //instead of doing props.match, you can just destructure it to 'match', props.match is widely available
 const Post = ({ getPost, post: { post, loading }, match }) => {
   useEffect(() => {
     getPost(match.params.id);
     //this is just filling in the [] as a dependency to avoid terminal error messages
-  }, [getPost]);
+  }, [getPost,match.params.id]);
 
   return loading || post === null ? (
     <Spinner />
@@ -24,6 +25,7 @@ const Post = ({ getPost, post: { post, loading }, match }) => {
         Back to Posts
       </Link>
       <PostItem post={post} showActions={false} />
+      <CommentForm postId={post._id} />
     </>
   );
 };

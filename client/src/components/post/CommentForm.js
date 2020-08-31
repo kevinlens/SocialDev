@@ -2,22 +2,21 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 //Connects component to Redux
 import { connect } from 'react-redux';
-import { addPost } from '../../actions/post';
+import { addComment } from '../../actions/post';
 
-const PostForm = ({ addPost }) => {
-  //
+const CommentForm = ({ addComment, postId }) => {
   const [text, setText] = useState('');
 
   return (
     <section className="post-form">
       <div className="bg-primary p">
-        <h3>Say Something...</h3>
+        <h3>Leave a Comment</h3>
       </div>
       <form
         className="form my-1"
         onSubmit={(e) => {
           e.preventDefault();
-          addPost({ text });
+          addComment(postId, { text });
           //clearing the formData, also if you do it like setText('') without the space, the form will show up red after submission
           setText(' ');
         }}
@@ -37,8 +36,10 @@ const PostForm = ({ addPost }) => {
   );
 };
 
-PostForm.propTypes = {
-  addPost: PropTypes.func.isRequired,
+/*propTypes aren't necessary they're just there to make sure if you're working in a team
+that someone doesn't mess up and pass in the wrong expected prop like array, object, or function*/
+CommentForm.propTypes = {
+  addComment: PropTypes.func.isRequired,
 };
 
-export default connect(null, { addPost })(PostForm);
+export default connect(null, { addComment })(CommentForm);
