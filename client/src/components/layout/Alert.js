@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-//Connects component to Redux
+//Connects component to Redux(for global state accessibility)
 import { connect } from 'react-redux';
 
 //Get the {alerts} destructered from the state props 'mapStateToProps'

@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-//Connects component to Redux
+//Connects component to Redux(for global state accessibility)
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { login } from '../../actions/auth';

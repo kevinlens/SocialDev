@@ -2,7 +2,7 @@
 meaing execute upon: page refresh or page load, by using '[]' it will do it only once*/
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-//Connects component to Redux
+//Connects component to Redux(for global state accessibility)
 import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
 import PostItem from './PostItem';

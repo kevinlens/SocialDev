@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-//Connects component to Redux
+//Connects component to Redux(for global state accessibility)
 import { connect } from 'react-redux';
 import { addPost } from '../../actions/post';
 

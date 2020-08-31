@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-//Connects component to Redux
+//Connects component to Redux(for global state accessibility)
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import { setAlert } from '../../actions/alert';

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 //'withRouter' allows you to work with history Object like 'history.push'
 import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+//Connects component to Redux(for global state accessibility)
 import { connect } from 'react-redux';
 import { addEducation } from '../../actions/profile';
 

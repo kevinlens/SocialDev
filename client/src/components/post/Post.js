@@ -3,29 +3,40 @@ meaing execute upon: page refresh or page load, by using '[]' it will do it only
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-//Connects component to Redux
+//Connects component to Redux(for global state accessibility)
 import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
 import { getPost } from '../../actions/post';
 import PostItem from '../posts/PostItem';
 import CommentForm from '../post/CommentForm';
+import CommentItem from '../post/CommentItem';
 
 //instead of doing props.match, you can just destructure it to 'match', props.match is widely available
 const Post = ({ getPost, post: { post, loading }, match }) => {
   useEffect(() => {
     getPost(match.params.id);
     //this is just filling in the [] as a dependency to avoid terminal error messages
-  }, [getPost,match.params.id]);
+  }, [getPost, match.params.id]);
 
   return loading || post === null ? (
     <Spinner />
   ) : (
     <>
+    
       <Link to="/posts" className="btn">
         Back to Posts
       </Link>
+
       <PostItem post={post} showActions={false} />
+
+      {/* comment form */}
       <CommentForm postId={post._id} />
+
+      {/* list of comments by different people */}
+      {post.comments.map((comment) => (
+        <CommentItem key={comment._id} comment={comment} postId={post._id} />
+      ))}
+
     </>
   );
 };
