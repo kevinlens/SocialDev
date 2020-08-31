@@ -82,6 +82,7 @@ export default function (state = initialState, action) {
             (comment) => comment._id !== payload
           ),
         },
+        loading: false,
       };
     case LOGOUT:
       return {
