@@ -22,11 +22,22 @@ const CommentItem = ({
           <h4>{name}</h4>
         </Link>
       </div>
+
       <div>
         <p className="my-1">{text}</p>
         <p className="post-date">
           Posted on <Moment format="YYYY/MM/DD">{date}</Moment>
         </p>
+
+        {!auth.loading && user === auth.user._id && (
+          <button
+            onClick={(e) => deleteComment(postId, _id)}
+            type="button"
+            className="btn btn-danger"
+          >
+            <i className="fas fa-times"></i>
+          </button>
+        )}
       </div>
     </section>
   );
