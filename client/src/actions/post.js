@@ -67,20 +67,22 @@ export const removeLike = (id) => async (dispatch) => {
 
 // Delete post
 export const deletePost = (id) => async (dispatch) => {
-  try {
-    await axios.delete(`/api/posts/${id}`);
+  if (window.confirm('Are you sure? This can NOT be undone')) {
+    try {
+      await axios.delete(`/api/posts/${id}`);
 
-    dispatch({
-      type: DELETE_POST,
-      payload: id,
-    });
+      dispatch({
+        type: DELETE_POST,
+        payload: id,
+      });
 
-    dispatch(setAlert('Post Removed', 'success'));
-  } catch (err) {
-    dispatch({
-      type: POST_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
-    });
+      dispatch(setAlert('Post Removed', 'success'));
+    } catch (err) {
+      dispatch({
+        type: POST_ERROR,
+        payload: { msg: err.response.statusText, status: err.response.status },
+      });
+    }
   }
 };
 
@@ -160,19 +162,21 @@ export const addComment = (postId, formData) => async (dispatch) => {
 
 // Delete comment
 export const deleteComment = (postId, commentId) => async (dispatch) => {
-  try {
-    await axios.delete(`/api/posts/comment/${postId}/${commentId}`);
+  if (window.confirm('Are you sure? This can NOT be undone')) {
+    try {
+      await axios.delete(`/api/posts/comment/${postId}/${commentId}`);
 
-    dispatch({
-      type: REMOVE_COMMENT,
-      payload: commentId,
-    });
+      dispatch({
+        type: REMOVE_COMMENT,
+        payload: commentId,
+      });
 
-    dispatch(setAlert('Comment Removed', 'success'));
-  } catch (err) {
-    dispatch({
-      type: POST_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
-    });
+      dispatch(setAlert('Comment Removed', 'success'));
+    } catch (err) {
+      dispatch({
+        type: POST_ERROR,
+        payload: { msg: err.response.statusText, status: err.response.status },
+      });
+    }
   }
 };
